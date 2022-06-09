@@ -8,6 +8,14 @@
   flex-direction: column;
   min-width: 22rem;
   background-color: var(--color-white);
+  transition: all 0.3s cubic-bezier(0.1, -0.03, 0, 1);
+}
+
+.container:hover {
+  transform: scale(1.2);
+  z-index: 1;
+  box-shadow: 0 1rem 2rem 0 var(--color-black-faded),
+    0 0 3rem 0 var(--color-black-faded);
 }
 
 .container.small {
