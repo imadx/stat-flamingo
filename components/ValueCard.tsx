@@ -2,14 +2,14 @@ import { useEffect } from "react";
 import { useFetch } from "../hooks";
 import styles from "./ValueCard.module.css";
 
-export default () => {
+const ValueCard = () => {
   const { data, error, isLoading, trigger } = useFetch<{ value: number }>(
     "/api/quotes",
   );
 
   useEffect(() => {
     trigger();
-  }, []);
+  }, [trigger]);
 
   const getClassNameForValue = () => {
     return [
@@ -31,3 +31,5 @@ export default () => {
     </div>
   );
 };
+
+export default ValueCard;
