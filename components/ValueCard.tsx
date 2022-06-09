@@ -3,6 +3,7 @@ import { useFetch, useMouseHover } from "../hooks";
 import { AppEvent, dispatchAppEvent, useEventListener } from "../hooks/events";
 import { Source } from "../types";
 import { getFormattedNumber } from "../utils";
+import RefreshButton from "./RefreshButton";
 import styles from "./ValueCard.module.css";
 
 interface Props {
@@ -65,7 +66,14 @@ const ValueCard = ({ source, size = "normal" }: Props) => {
         {data?.selling && <> / {getFormattedNumber(data?.selling)} LKR</>}
       </p>
       <p className={styles.source}>{source.toUpperCase()}</p>
-      {error && <p className={styles.errorMessage}>{error}</p>}
+      {error && (
+        <>
+          <p className={styles.errorMessage}>
+            {error}
+            <RefreshButton onClick={trigger} />
+          </p>
+        </>
+      )}
     </div>
   );
 };
