@@ -18,6 +18,10 @@
     0 0 3rem 0 var(--color-black-faded);
 }
 
+.container * {
+  pointer-events: none;
+}
+
 .container.small {
   padding: 1.5rem;
 }

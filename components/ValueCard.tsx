@@ -1,5 +1,6 @@
-import { useEffect } from "react";
-import { useFetch } from "../hooks";
+import { useEffect, useRef, useState } from "react";
+import { useFetch, useMouseHover } from "../hooks";
+import { AppEvent, dispatchAppEvent, useEventListener } from "../hooks/events";
 import { Source } from "../types";
 import { getFormattedNumber } from "../utils";
 import styles from "./ValueCard.module.css";
@@ -10,10 +11,33 @@ interface Props {
 }
 
 const ValueCard = ({ source, size = "normal" }: Props) => {
+  const elementRef = useRef<HTMLDivElement>(null);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const hovered = useMouseHover(elementRef);
+
   const { data, error, isLoading, trigger } = useFetch<{
     buying: string | null;
     selling: string | null;
   }>(`/api/quotes?source=${source}`);
+
+  const handleOnExternalValueCardHovered = (payload: Source) => {
+    if (payload !== source) {
+      setIsHovered(false);
+    }
+  };
+
+  useEventListener<Source>(
+    AppEvent.ValueCardHovered,
+    handleOnExternalValueCardHovered,
+  );
+
+  useEffect(() => {
+    if (hovered) {
+      setIsHovered(true);
+      dispatchAppEvent(AppEvent.ValueCardHovered, source);
+    }
+  }, [hovered]);
 
   useEffect(() => {
     trigger();
@@ -31,7 +55,11 @@ const ValueCard = ({ source, size = "normal" }: Props) => {
   };
 
   return (
-    <div className={[styles.container, styles[size]].join(" ")}>
+    <div
+      ref={elementRef}
+      className={[styles.container, styles[size]].join(" ")}
+      style={{ zIndex: isHovered ? 1 : "" }}
+    >
       <p className={getClassNameForValue()}>
         <>1 USD = {getFormattedNumber(data?.buying)} LKR</>
         {data?.selling && <> / {getFormattedNumber(data?.selling)} LKR</>}
