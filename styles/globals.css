@@ -1,9 +1,37 @@
+:root {
+  --color-black: #2b3544;
+  --color-black-faded: #2b354433;
+  --color-accent: #32ff9044;
+  --color-white: #fff;
+  --color-red: #f34;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-black: #fff;
+    --color-black-faded: #32ff9044;
+    --color-white: #1c2127;
+    --color-red: #f34;
+  }
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  color: var(--color-black);
+  background-color: var(--color-white);
+
+  background-image: radial-gradient(
+    var(--color-accent) 10%,
+    var(--color-white) 10%
+  );
+  background-position: 0 0;
+  background-size: 1rem 1rem;
+  height: 200px;
+  width: 100%;
 }
 
 a {
