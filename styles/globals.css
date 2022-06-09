@@ -1,6 +1,7 @@
 :root {
   --color-black: #2b3544;
   --color-black-faded: #2b354433;
+  --color-black-faded-1: #2b354444;
   --color-accent: #32ff9044;
   --color-white: #fff;
   --color-red: #f34;
@@ -9,7 +10,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --color-black: #fff;
-    --color-black-faded: #32ff9044;
+    --color-black-faded: #0c1117;
     --color-white: #1c2127;
     --color-red: #f34;
   }
@@ -41,4 +42,23 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+@keyframes loading-animation {
+  0% {
+    background-position: 0px;
+  }
+  100% {
+    background-position: 1000px;
+  }
+}
+
+.loading::after {
+  animation: loading-animation 3s ease-in-out alternate 0s infinite;
+  background-image: linear-gradient(
+    to right,
+    var(--color-black-faded),
+    var(--color-black-faded-1),
+    var(--color-black-faded)
+  );
 }

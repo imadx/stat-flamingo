@@ -15,6 +15,7 @@ const ValueCard = () => {
     return [
       styles.value,
       !data?.value || isLoading ? styles.loading : undefined,
+      !data?.value || isLoading ? "loading" : undefined,
       error ? styles.error : undefined,
     ]
       .filter(Boolean)
