@@ -1,11 +1,19 @@
 import { useEffect } from "react";
 import { useFetch } from "../hooks";
+import { Source } from "../types";
+import { getFormattedNumber } from "../utils";
 import styles from "./ValueCard.module.css";
 
-const ValueCard = () => {
-  const { data, error, isLoading, trigger } = useFetch<{ value: number }>(
-    "/api/quotes",
-  );
+interface Props {
+  source: Source;
+  size?: "small" | "normal";
+}
+
+const ValueCard = ({ source, size = "normal" }: Props) => {
+  const { data, error, isLoading, trigger } = useFetch<{
+    buying: string | null;
+    selling: string | null;
+  }>(`/api/quotes?source=${source}`);
 
   useEffect(() => {
     trigger();
@@ -14,8 +22,8 @@ const ValueCard = () => {
   const getClassNameForValue = () => {
     return [
       styles.value,
-      !data?.value || isLoading ? styles.loading : undefined,
-      !data?.value || isLoading ? "loading" : undefined,
+      !data?.buying || isLoading ? styles.loading : undefined,
+      !data?.buying || isLoading ? "loading" : undefined,
       error ? styles.error : undefined,
     ]
       .filter(Boolean)
@@ -23,11 +31,12 @@ const ValueCard = () => {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={[styles.container, styles[size]].join(" ")}>
       <p className={getClassNameForValue()}>
-        <>1 USD = {data?.value || "###"} LKR</>
+        <>1 USD = {getFormattedNumber(data?.buying)} LKR</>
+        {data?.selling && <> / {getFormattedNumber(data?.selling)} LKR</>}
       </p>
-      <p className={styles.source}>WISE</p>
+      <p className={styles.source}>{source.toUpperCase()}</p>
       {error && <p className={styles.errorMessage}>{error}</p>}
     </div>
   );

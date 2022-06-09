@@ -12,3 +12,15 @@
   margin-bottom: 2rem;
   text-shadow: 0 0 1rem var(--color-white);
 }
+
+.heading {
+  min-width: 22rem;
+  text-align: left;
+  display: flex;
+  gap: 1rem;
+}
+
+.logo {
+  width: 4rem !important;
+  height: 4rem !important;
+}

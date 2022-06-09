@@ -1,9 +1,9 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
 import Heading from "../components/Heading";
 import ValueCard from "../components/ValueCard";
 import styles from "../styles/Home.module.css";
+import { Source } from "../types";
 
 const Home: NextPage = () => {
   return (
@@ -16,10 +16,15 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <Heading />
-        <ValueCard />
+
+        <div className={styles.valueContainer}>
+          <ValueCard source={Source.wise} />
+          <ValueCard source={Source.sampath} size="small" />
+          <ValueCard source={Source.google} size="small" />
+        </div>
       </main>
       <footer className={styles.footer}>
-        <p>created by Ishan Madhusanka</p>
+        <p>by Ishan Madhusanka</p>
       </footer>
     </div>
   );

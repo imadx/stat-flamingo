@@ -6,8 +6,20 @@
   text-align: center;
   display: flex;
   flex-direction: column;
-  min-width: 20rem;
+  min-width: 22rem;
   background-color: var(--color-white);
+}
+
+.container.small {
+  padding: 1.5rem;
+}
+
+.container.small .value {
+  font-size: 1rem;
+}
+
+.container.small .source {
+  font-size: 1rem;
 }
 
 .value {
@@ -37,6 +49,7 @@
   display: inline-block;
   font-size: 1rem;
   margin: 0.3rem;
+  opacity: 0.5;
 }
 
 .loading {
