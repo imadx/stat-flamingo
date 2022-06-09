@@ -74,11 +74,14 @@
 }
 
 .error {
-  color: var(--color-red);
+  /* color: var(--color-red); */
 }
 
 .error::after {
+  animation: none;
   background-color: var(--color-red);
+  background-image: none;
+  opacity: 0.3;
 }
 
 .errorMessage {

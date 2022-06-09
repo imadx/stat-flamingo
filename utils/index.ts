@@ -4,7 +4,7 @@ export const getFormattedNumber = (
   let _output = value;
 
   if (_output === null || typeof _output === "undefined") {
-    return "###";
+    return "???";
   }
 
   if (typeof _output === "string") {
