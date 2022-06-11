@@ -7,32 +7,41 @@ type Data = {
   selling: string | null;
 };
 
+type DataError = {
+  message: string;
+};
+
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>,
+  res: NextApiResponse<Data | DataError>,
 ) {
   let buying = null,
     selling = null;
 
-  switch (req.query.source as Source) {
-    case "sampath": {
-      const response = await fetchBank();
-      buying = response.buying;
-      selling = response.selling;
-      break;
-    }
+  try {
+    switch (req.query.source as Source) {
+      case "sampath": {
+        const response = await fetchBank();
+        buying = response.buying;
+        selling = response.selling;
+        break;
+      }
 
-    case "wise": {
-      const response = await fetchWise();
-      buying = response.buying;
-      break;
-    }
+      case "wise": {
+        const response = await fetchWise();
+        buying = response.buying;
+        break;
+      }
 
-    case "google": {
-      const response = await fetchGoogle();
-      buying = response.buying;
-      break;
+      case "google": {
+        const response = await fetchGoogle();
+        buying = response.buying;
+        break;
+      }
     }
+  } catch (exception) {
+    res.status(404).json({ message: (exception as Error).message });
+    return;
   }
 
   res.status(200).json({ buying, selling });
@@ -49,6 +58,10 @@ const fetchBank = async (): Promise<Data> => {
     ".exch-rates > tbody > tr:nth-child(17) > td:nth-child(4)",
   ).text();
 
+  if (!dataBankBuying || !dataBankSelling) {
+    throw new Error("Couldn't read exchange rate");
+  }
+
   return { buying: dataBankBuying, selling: dataBankSelling };
 };
 
@@ -62,6 +75,10 @@ const fetchGoogle = async (): Promise<Data> => {
     .text()
     .replace("Sri Lankan Rupee", "");
 
+  if (!value) {
+    throw new Error("Couldn't read exchange rate");
+  }
+
   return { buying: value, selling: null };
 };
 
@@ -74,6 +91,10 @@ const fetchWise = async (): Promise<Data> => {
   const value = html(
     "#calculator > div.cc-calculator > div.text-xs-center.text-lg-left > h3 > span.text-success",
   ).text();
+
+  if (!value) {
+    throw new Error("Couldn't read exchange rate");
+  }
 
   return { buying: value, selling: null };
 };

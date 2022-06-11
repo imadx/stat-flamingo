@@ -45,10 +45,12 @@ const ValueCard = ({ source, size = "normal" }: Props) => {
   }, [trigger]);
 
   const getClassNameForValue = () => {
+    const _isLoading = !data?.buying || isLoading;
+
     return [
       styles.value,
-      !data?.buying || isLoading ? styles.loading : undefined,
-      !data?.buying || isLoading ? "loading" : undefined,
+      _isLoading ? styles.loading : undefined,
+      _isLoading ? "loading" : undefined,
       error ? styles.error : undefined,
     ]
       .filter(Boolean)

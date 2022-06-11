@@ -10,6 +10,15 @@ export const useFetch = <T>(url: string) => {
     setError(null);
     try {
       const response = await fetch(url);
+      if (!response.ok) {
+        if (response.body) {
+          const body = await response.json();
+          throw new Error(body.message);
+        }
+
+        throw new Error(response.statusText);
+      }
+
       setData(await response.json());
     } catch (exception) {
       setData(null);
