@@ -89,7 +89,7 @@ const fetchWise = async (): Promise<Data> => {
   const html = load(await response.text());
 
   const value = html(
-    "#calculator > div.cc-calculator > div.text-xs-center.text-lg-left > h3 > span.text-success",
+    "#calculator span.text-success",
   ).text();
 
   if (!value) {
